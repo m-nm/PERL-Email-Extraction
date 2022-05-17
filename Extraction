@@ -1,0 +1,40 @@
+#! C:/Perl64/bin/perl -w        # Calls the PERL interpreter
+use strict;                     
+use warnings;                    
+use autodie;                    
+
+
+my $in_file = 'input.txt';      # Define input file
+my $out_file = 'output.txt'; # Define output file
+
+my $encoding = ":encoding(UTF-8)";  # Specify western style character encoding
+
+my ($line,$header,$var1,$var2,$var3); # Define variables
+
+# open file handles
+open (my $handle, "< $encoding", $in_file) || die "Could not open $in_file: $!"; #input file
+open (my $handle2, ">> $encoding", $out_file) || die "Could not open $out_file: $!"; #output file
+
+# print header to output file
+$header = "E-mail";
+print $handle2 $header."\n";  # Prints header to file including newline
+
+# Initializing variables
+$var1="";
+$var2="";
+
+# Read first line of input file
+$line = readline($handle);
+# This is the part you will have to edit---------------
+while($line){
+ if($line=~/From.*\s\<(.*)\>/){
+    $var1=$1;
+    $var1=~s/\.\.\.//;
+    print $handle2 $var1."\n";
+  }
+  $line=readline($handle);
+ }
+ #----------------------------------------
+ close $handle2;        # closes file
+ print "Extraction complete!\n";
+ exit;                  # Bye-bye      
